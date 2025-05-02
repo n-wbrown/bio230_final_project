@@ -5,7 +5,7 @@ Created on Tue Apr 29 10:43:50 2025
 @author: kathe
 """
 
-
+#hello edit
 import sympy as sp
 import numpy as np
 
