@@ -5,9 +5,11 @@ Created on Tue Apr 29 10:43:50 2025
 @author: kathe
 """
 
+
 #hello edit
 import sympy as sp
 import numpy as np
+
 
 def generate_reaction_network(num_species=3, num_reactions=4, 
                               max_reactants=2, max_products=2, 
@@ -72,15 +74,17 @@ def generate_reaction_network(num_species=3, num_reactions=4,
     
     return species, odes, reactions
 
-# Example usage:
-species, odes, reactions = generate_reaction_network(num_species=3, num_reactions=4, seed=42)
 
-print("Species:", species)
-print("\nODEs:")
-for i, ode in enumerate(odes):
-    print(f"d{species[i]}/dt = {sp.simplify(ode)}")
+if __name__ == "__main__":
+    # Example usage:
+    species, odes, reactions = generate_reaction_network(num_species=3, num_reactions=4, seed=42)
 
-print("\nReactions:")
-for rxn in reactions:
-    print(rxn)
+    print("Species:", species)
+    print("\nODEs:")
+    for i, ode in enumerate(odes):
+        print(f"d{species[i]}/dt = {sp.simplify(ode)}")
+
+    print("\nReactions:")
+    for rxn in reactions:
+        print(rxn)
 
