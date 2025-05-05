@@ -1,0 +1,6 @@
+jax>=0.4.38
+matplotlib>=3.10.0
+numpy>=2.2.2
+pysr>=1.5.5
+sympy>=1.13.3
+torch>=2.2.2
