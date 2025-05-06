@@ -5,10 +5,27 @@ Created on Tue Apr 29 10:43:50 2025
 @author: kathe
 """
 
+from dataclasses import dataclass
 
-#hello edit
 import sympy as sp
 import numpy as np
+
+
+
+def example_function():
+    print(f"the example function in {__file__} is running")
+
+
+@dataclass
+class ReactionNetwork:
+    """
+    species (list): List of sympy symbols for species.
+    odes (list): List of sympy expressions representing d[species]/dt.
+    reactions (list): List of reaction dictionaries.
+    """
+    species: list[sp.core.symbol.Symbol]
+    odes: list
+    reactions: list[dict]
 
 
 def generate_reaction_network(num_species=3, num_reactions=4, 
@@ -26,9 +43,7 @@ def generate_reaction_network(num_species=3, num_reactions=4,
         seed (int or None): Random seed for reproducibility.
 
     Returns:
-        species (list): List of sympy symbols for species.
-        odes (list): List of sympy expressions representing d[species]/dt.
-        reactions (list): List of reaction dictionaries.
+        network (ReactionNetwork): object containing the species list, odes, and reactions
     """
     if seed is not None:
         np.random.seed(seed)
@@ -72,12 +87,19 @@ def generate_reaction_network(num_species=3, num_reactions=4,
             'rate_constant': float(rate)
         })
     
-    return species, odes, reactions
+    return ReactionNetwork(
+        species=species,
+        odes=odes,
+        reactions=reactions,
+    )
 
 
 if __name__ == "__main__":
     # Example usage:
-    species, odes, reactions = generate_reaction_network(num_species=3, num_reactions=4, seed=42)
+    rnet = generate_reaction_network(num_species=3, num_reactions=4, seed=42)
+    species = rnet.species
+    odes = rnet.odes
+    reactions = rnet.reactions
 
     print("Species:", species)
     print("\nODEs:")
