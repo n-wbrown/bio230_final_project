@@ -5,7 +5,7 @@ Created on Tue Apr 29 10:43:50 2025
 @author: kathe
 """
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import sympy as sp
 import numpy as np
@@ -92,6 +92,28 @@ def generate_reaction_network(num_species=3, num_reactions=4,
         odes=odes,
         reactions=reactions,
     )
+
+
+def create_callables(species: list[sp.core.symbol.Symbol], odes: list) -> list:
+    """
+    Generate a set of callables corresponding to the differentaial equations of a ReactionNetwork.
+
+    Args:
+        species: List of sympy symbols representing each species' quantity
+        odes: list of ordinary differential equation represented by sympy functions
+
+    Returns:
+        network: list of callable functions corresponding to the given odes list
+    """
+    x_eqs = []
+    species_count = len(species)
+
+    for ode in odes:
+        specs = sp.symbols(f"i0:{species_count}")
+        lam = sp.lambdify(specs, ode.evalf(subs={species[k]: specs[k] for k in range(species_count)}))
+        x_eqs.append(lam)
+
+    return x_eqs
 
 
 if __name__ == "__main__":
