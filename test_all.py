@@ -4,14 +4,20 @@ tests.py
 Confirm functionality of the program
 """
 
+from functools import partial
+
+import matplotlib.pyplot as plt
+import numpy as np
 import pytest
 import sympy as sp
 
-from src.diff_eq_generator import (ReactionNetwork, generate_reaction_network,
-    create_callables)
-# from src.diff_eq_simulator import ()
-# from src.diff_eq_recreator import ()
-# src.plot_tools, src.utils
+from src.diff_eq_generator import (
+    ReactionNetwork,
+    create_callables,
+    generate_reaction_network,
+)
+from src.diff_eq_simulator import simulate_differential_equations, simulate_network
+from src.utils import lotka_volterra
 
 
 class TestGenerator:
@@ -50,7 +56,31 @@ class TestGenerator:
 
 
 class TestSimulator:
-    pass
+    def test_simulate_network(self):
+        pass
+
+    def test_simulate_differential_equations(self):
+        species, times = simulate_differential_equations(
+            lotka_volterra,
+            x0=np.array([1.5,2.5]),
+            t0=0,
+            tf=10,
+            num_steps=200,
+        )
+
+        # enable this to check output
+        if False:
+            fig = plt.figure()
+            fig.set_size_inches(12, 6)
+            axes = fig.subplots(1,2)
+            for idx, track in enumerate([0]):
+                axes[0].plot(times, species[:,0], label=f"{idx}, a")
+                axes[0].plot(times, species[:,1], label=f"{idx}, b")
+                axes[1].plot(species[:,0], species[:,1], label=f"{idx}")
+            axes[0].legend()
+            axes[1].legend()
+            plt.savefig('test_simulate_differential_equations.png')
+        assert False
 
 
 class TestRecreator:
