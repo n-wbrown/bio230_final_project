@@ -6,36 +6,22 @@ time series data with some stochasticity.
 """
 import numpy as np
 
-# from  diff_eq_generator import ReactionNetwork
+from .diff_eq_generator import create_callables
 
 
 def example_function():
     print(f"the example function in {__file__} is running")
 
 
-def simulate_network(rnet: "ReactionNetwork", initial: np.ndarray,
-                     times: np.ndarray) -> np.ndarray:
+def simulate_network(rnet: "ReactionNetwork", x0: np.ndarray, t0: float,
+                     tf:float, noise_intensity: np.ndarray | None=None,
+                     num_steps: int=1000) -> tuple[np.ndarray, np.ndarray]:
     """
     Simulate the reaction network, produce time series data of the quantity of
     the reactants.
 
     Args: 
-    rnet : The configured reaction network
-    initial : 1d array of the initial values for each reactant.
-    times : 1d array of time increments to use during simulation.
-
-    Returns:
-    reactants : 2d array of the reactant quantities at each time step.
-    """
-    pass
-
-
-
-def simulate_differential_equations(f, x0: np.ndarray, t0: float, tf:float, noise_intensity: np.ndarray | None=None, num_steps: int=1000) -> tuple[np.ndarray, np.ndarray]:
-    """
-    Simulate a system of differential equations with stochasticity.
-    
-    Args:
+        rnet : The configured reaction network
         f: function describing system dynamics takes
         x0: Initial condition for the system
         t0: Start time
@@ -44,7 +30,49 @@ def simulate_differential_equations(f, x0: np.ndarray, t0: float, tf:float, nois
         num_steps: Number of simulation steps
 
     Returns:
-        x: Array of system states over time
+        reactants : 2d array of the reactant quantities at each time step.
+        time: Array of time points
+    """
+    eqs = create_callables(
+        species=rnet.species,
+        odes=rnet.odes,
+    ) 
+
+    times = np.array([])
+
+    def temp_func(X, t):
+        return np.array([eq(*X) for eq in eqs])
+
+    result, times = simulate_differential_equation(
+        temp_func,
+        x0=x0,
+        t0=t0,
+        tf=tf,
+        noise_intensity=noise_intensity,
+        num_steps=num_steps
+    )
+
+    return result, times
+
+
+
+def simulate_differential_equation(f, x0: np.ndarray, t0: float, tf:float,
+                                    noise_intensity: np.ndarray | None=None,
+                                    num_steps: int=1000
+                                    ) -> tuple[np.ndarray, np.ndarray]:
+    """
+    Simulate a system of differential equations with stochasticity.
+    
+    Args:
+        f: list of functions describing system dynamics takes
+        x0: Initial condition for the system
+        t0: Start time
+        tf: End time
+        noise_intensity: Strength of the stochastic noise for each qty
+        num_steps: Number of simulation steps
+
+    Returns:
+        x: Array of reactant quantities over time
         time: Array of time points
     """
     # Initialize time and state arrays
@@ -74,11 +102,3 @@ def simulate_differential_equations(f, x0: np.ndarray, t0: float, tf:float, nois
         x[i] = x[i-1] + dx
 
     return x, time
-
-# Example system: Simple harmonic oscillator (deterministic part)
-def harmonic_oscillator(x, t):
-    # Simple harmonic oscillator: dx/dt = v, dv/dt = -x (using position and velocity)
-    position, velocity = x
-    return np.array([velocity, -position])
-
-

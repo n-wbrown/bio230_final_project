@@ -16,7 +16,8 @@ from src.diff_eq_generator import (
     create_callables,
     generate_reaction_network,
 )
-from src.diff_eq_simulator import simulate_differential_equations, simulate_network
+from src.diff_eq_simulator import (simulate_differential_equation,
+    simulate_network)
 from src.utils import lotka_volterra
 
 
@@ -57,10 +58,35 @@ class TestGenerator:
 
 class TestSimulator:
     def test_simulate_network(self):
-        pass
+        rnet = generate_reaction_network(
+            num_species=3,
+            num_reactions=4,
+            seed=42,
+        )
+        reactants, times = simulate_network(
+            rnet,
+            x0=np.array([1.5, 3.8, 2.5]),
+            t0=0,
+            tf=1,
+            num_steps=20,
+        )
+        print(reactants)
+        print(times)
+        # enable this to check output
+        if False:
+            fig = plt.figure()
+            fig.set_size_inches(12, 6)
+            axes = fig.subplots(1,2)
+            for idx in range(reactants.shape[1]):
+                axes[0].plot(times, reactants[:,idx], label=f"{idx}, a")
+                # axes[1].plot(reactants[:,0], reactants[:,1], label=f"{idx}")
+            axes[0].legend()
+            axes[1].legend()
+            plt.savefig('test_simulate_differential_equations.png')
 
-    def test_simulate_differential_equations(self):
-        species, times = simulate_differential_equations(
+
+    def test_simulate_differential_equation(self):
+        species, times = simulate_differential_equation(
             lotka_volterra,
             x0=np.array([1.5,2.5]),
             t0=0,
@@ -68,6 +94,8 @@ class TestSimulator:
             num_steps=200,
         )
 
+        print(species)
+        print(times)
         # enable this to check output
         if False:
             fig = plt.figure()
@@ -80,7 +108,6 @@ class TestSimulator:
             axes[0].legend()
             axes[1].legend()
             plt.savefig('test_simulate_differential_equations.png')
-        assert False
 
 
 class TestRecreator:
