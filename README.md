@@ -1,4 +1,4 @@
-# BIO230 inal Project
+# BIO230 Final Project
 
 # Usage Instructions
 Run with:
