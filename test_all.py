@@ -46,11 +46,11 @@ class TestGenerator:
         rnet = generate_reaction_network(
             num_species=3,
             num_reactions=4,
-            seed=42,
+            seed=14,
         )
         callables = create_callables(rnet.species, rnet.odes)
         assert len(callables) == 3
-        targets = [-1.4, 11.8, -20.2]
+        targets = [7.2, 5.1, 5.1]
         for call_func, target in zip(callables, targets):
             result = call_func(1,2,3)
             assert (result - target) < 0.2

@@ -6,6 +6,7 @@ A collection of misc. tools.
 
 import numpy as np
 
+
 def derivative_finder_diff(reactants_data: np.ndarray, times_data: np.ndarray) -> np.ndarray:
     """
     Simple difference-based differentiator.

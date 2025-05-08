@@ -45,8 +45,7 @@ def generate_reaction_network(num_species=3, num_reactions=4,
     Returns:
         network (ReactionNetwork): object containing the species list, odes, and reactions
     """
-    if seed is not None:
-        np.random.seed(seed)
+    rng = np.random.default_rng(seed=seed)
     
     # Define species symbols
     species = sp.symbols(f'x0:{num_species}')
@@ -55,19 +54,19 @@ def generate_reaction_network(num_species=3, num_reactions=4,
     
     for _ in range(num_reactions):
         # Randomly choose number of reactants and products
-        n_reactants = np.random.randint(1, max_reactants + 1)
-        n_products = np.random.randint(1, max_products + 1)
+        n_reactants = rng.integers(1, max_reactants + 1)
+        n_products = rng.integers(1, max_products + 1)
         
         # Randomly choose which species are reactants and products
-        reactant_idxs = np.random.choice(range(num_species), n_reactants, replace=False)
-        product_idxs = np.random.choice(range(num_species), n_products, replace=False)
+        reactant_idxs = rng.choice(range(num_species), n_reactants, replace=False)
+        product_idxs = rng.choice(range(num_species), n_products, replace=False)
         
         # Randomly assign stoichiometric coefficients (1 or 2)
-        reactant_stoich = np.random.randint(1, 3, n_reactants)
-        product_stoich = np.random.randint(1, 3, n_products)
+        reactant_stoich = rng.integers(1, 3, n_reactants)
+        product_stoich = rng.integers(1, 3, n_products)
         
         # Random rate constant
-        rate = np.round(np.random.uniform(*rate_range), 3)
+        rate = np.round(rng.uniform(*rate_range), 3)
         
         # Build rate law: product of reactant concentrations to their stoichiometric powers
         rate_law = rate
