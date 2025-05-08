@@ -12,7 +12,6 @@ def example_function():
 
 
 
-
 def regressor_fit(dataset: np.ndarray, target: np.ndarray
                   ) -> "pysr.PySRRegressor":
     """

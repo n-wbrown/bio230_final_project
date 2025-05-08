@@ -18,7 +18,7 @@ from src.diff_eq_generator import (
 )
 from src.diff_eq_simulator import (simulate_differential_equation,
     simulate_network)
-from src.utils import lotka_volterra
+from src.utils import lotka_volterra, derivative_finder_diff
 
 
 class TestGenerator:
@@ -112,3 +112,15 @@ class TestSimulator:
 
 class TestRecreator:
     pass
+
+
+class TestUtils:
+    def test_derivative_finder_diff(self):
+        data = np.array([[1,4.3], [2,7.0]])
+        result = derivative_finder_diff(
+            data,
+            np.array([0.0,2.0]),
+        )
+        assert np.all(np.abs(result - np.array([[0.5, 2.7/2]])) < 1e-5)
+
+

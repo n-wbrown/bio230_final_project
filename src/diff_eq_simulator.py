@@ -55,7 +55,6 @@ def simulate_network(rnet: "ReactionNetwork", x0: np.ndarray, t0: float,
     return result, times
 
 
-
 def simulate_differential_equation(f, x0: np.ndarray, t0: float, tf:float,
                                     noise_intensity: np.ndarray | None=None,
                                     num_steps: int=1000
