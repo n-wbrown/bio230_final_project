@@ -7,6 +7,7 @@ import numpy as np
 import pysr
 
 from src.diff_eq_simulator import (simulate_network)
+from .utils import derivative_finder_diff
 
 def example_function():
     print(f"the example function in {__file__} is running")
@@ -44,6 +45,35 @@ def rand_runner(rnet: ".diff_eq_generator.ReactionNetwork",
 
     return reactants_data, times_data
 
+def data_set_bundler(qty_data: list[np.ndarray], times_data: list[np.ndarray]) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """
+    Take the output of rand_runner, calculate the derivatives and reformat the
+    data to feed directly into pysr's fit method.
+
+    Args:
+        qty_data: A collections of runs over the same network
+        times_data: The time stamps associated with each simulated run
+
+    Returns:
+        merged_qty_data: A 2d array of reactant quantites, appended in time
+        merged_times_data: A 1d array of timestamps
+        merged_qty_drv: A 2d array of the derivative of the reactant quantities.
+    """
+    qty_drv = []
+    for qty, times in zip(qty_data, times_data):
+        qty_drv.append(
+            derivative_finder_diff(qty, times)
+        )
+
+    merged_qty_data = np.concat([qty[:-1,:] for qty in qty_data], axis=0)
+    merged_times_data = np.concat([times[:-1] for times in times_data], axis=0)
+    merged_qty_drv = np.concat(qty_drv, axis=0)
+
+    return (
+        merged_qty_data,
+        merged_times_data,
+        merged_qty_drv,
+    )
 
 def regressor_fit(dataset: np.ndarray, target: np.ndarray
                   ) -> "pysr.PySRRegressor":
@@ -58,18 +88,18 @@ def regressor_fit(dataset: np.ndarray, target: np.ndarray
         mode : fitted regressor model containing results
     """
     model = pysr.PySRRegressor(
-        maxsize=15,
-        populations=4,
+        maxsize=20,
+        # populations=4,
         niterations=40,  # < Increase me for better results
         binary_operators=["+", "*"],
-        unary_operators=[
-            "cos",
-            "exp",
-            "sin",
-            "inv(x) = 1/x",
-            # ^ Custom operator (julia syntax)
-        ],
-        extra_sympy_mappings={"inv": lambda x: 1 / x},
+        # unary_operators=[
+        #     "cos",
+        #     "exp",
+        #     "sin",
+        #     "inv(x) = 1/x",
+        #     # ^ Custom operator (julia syntax)
+        # ],
+        # extra_sympy_mappings={"inv": lambda x: 1 / x},
         # ^ Define operator for SymPy as well
         elementwise_loss="loss(prediction, target) = (prediction - target)^2",
         # ^ Custom loss function (julia syntax)
