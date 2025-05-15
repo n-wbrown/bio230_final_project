@@ -75,7 +75,7 @@ def data_set_bundler(qty_data: list[np.ndarray], times_data: list[np.ndarray]) -
         merged_qty_drv,
     )
 
-def regressor_fit(dataset: np.ndarray, target: np.ndarray
+def regressor_fit(dataset: np.ndarray, target: np.ndarray, maxsize: int = 20, niterations: int = 40
                   ) -> "pysr.PySRRegressor":
     """
     Use pysr to fit the dataset and target.
@@ -88,9 +88,9 @@ def regressor_fit(dataset: np.ndarray, target: np.ndarray
         mode : fitted regressor model containing results
     """
     model = pysr.PySRRegressor(
-        maxsize=20,
+        maxsize=maxsize,
         # populations=4,
-        niterations=40,  # < Increase me for better results
+        niterations=niterations,  # < Increase me for better results
         binary_operators=["+", "*"],
         # unary_operators=[
         #     "cos",
