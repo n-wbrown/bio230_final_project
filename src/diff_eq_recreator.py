@@ -116,6 +116,7 @@ def regressor_fit(dataset: np.ndarray, target: np.ndarray, maxsize: int = 20,
         elementwise_loss="loss(prediction, target) = (prediction - target)^2",
         # ^ Custom loss function (julia syntax)
         # warm_start=True,
+        annealing=True,
         verbosity=verbosity,
     )
     model.fit(
