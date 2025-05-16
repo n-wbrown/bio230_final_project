@@ -1,0 +1,28 @@
+#! /bin/bash
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH -p grp.ccbm
+#SBATCH -cpus-per-task=56
+#SBATCH --time=6-20:00:00
+#SBATCH --output=lrun_%j.stdout
+#SBATCH --mem=8192  #memory per core in MBs it can be calcuated
+#SBATCH --job-name=lrun
+#SBATCH --export=ALL
+#SBATCH --mail-type=BEGIN,END,FAIL
+#SBATCH --mail-user=nbrown16@ucmerced.edu
+
+date
+printf "SLURM_JOB_NODELIST %s\n" "$SLURM_JOB_NODELIST"
+############class purpose above
+module load anaconda3
+conda env list
+which python
+python --version
+source activate ../conda_venv
+which python
+python --version
+srun -n 1 -c 56 
+
+srun -n 1 -c 56 python main.py generate --output_file network.pickle
+srun -n 1 -c 56 python main.py simulate --input_network_file network.pickle --runs 25 --noise_intensty 0.0 --output_dir network_runs
+srun -n 1 -c 56 python main.py recreate --input_sim_dir --niterations 100 network_runs
