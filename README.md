@@ -110,6 +110,10 @@ options:
   --maxsize MAXSIZE     Restrict the maximum complexity of the explored solutions
   --output OUTPUT       Print the results into the file
 ```
+
+# Slides
+The presentatio slides can be found [here](slides/PHYS230%20Final%20Project.pdf)
+
 # Ackwnowledgements
 
 This project has been made possible by
