@@ -1,5 +1,9 @@
 # BIO230 Final Project
 
+This project attempts to reconstruct chemical reaction networks from
+time-series recording of the reactant quantities. The project includes tools to
+generate and simulate networks for testing.
+
 # Usage Instructions
 Run with:
 `python main.py [subcommand] [args]`

@@ -137,7 +137,7 @@ def recreate_runner(args: argparse.Namespace) -> None:
 
 def parse_cl_args():
     parser = argparse.ArgumentParser(
-        prog="bio_230_final_project",
+        prog="python main.py",
         description="Solve stochastic differential equations and approximate the original equation.",
     )
     subparsers = parser.add_subparsers(
