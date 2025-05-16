@@ -118,7 +118,9 @@ def recreate_runner(args: argparse.Namespace) -> None:
 
     output_buf = []
     for eq in model.equations_:
-        output_buf.append(eq.to_string())
+        output_buf.append(
+            eq[["complexity", "loss", "score", "equation"]].to_string()
+        )
         output_buf.append("\n")
 
     for best in model.get_best():
@@ -160,7 +162,7 @@ def parse_cl_args():
     generate_subparser.add_argument(
         "--num_reactions",
         help="Number of reaction paths to include in the network",
-        default=4,
+        default=3,
         type=int,
     )
     generate_subparser.add_argument(
@@ -222,13 +224,13 @@ def parse_cl_args():
         "--noise_intensity",
         help="Per-step noise to add to the simulation",
         type=float,
-        default=1e-3,
+        default=1e-4,
     )
     simulate_subparser.add_argument(
         "--runs",
         help="number of independent simulations to create",
         type=int,
-        default=3,
+        default=20,
     )
     simulate_subparser.add_argument(
         "--output_dir",
@@ -252,7 +254,7 @@ def parse_cl_args():
         "--niterations",
         help="Number of fitting iterations to run. More iterations improves accuracty",
         type=int,
-        default=40,
+        default=100,
     )
     recreate_subparser.add_argument(
         "--maxsize",
@@ -273,7 +275,7 @@ def parse_cl_args():
 
 if __name__ == "__main__":
     logging.basicConfig(
-        level=logging.DEBUG,
+        level=logging.INFO,
     )
     parser = parse_cl_args()
     args = parser.parse_args()

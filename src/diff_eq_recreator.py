@@ -86,7 +86,8 @@ def data_set_bundler(qty_data: list[np.ndarray], times_data: list[np.ndarray]) -
         merged_qty_drv,
     )
 
-def regressor_fit(dataset: np.ndarray, target: np.ndarray, maxsize: int = 20, niterations: int = 40
+def regressor_fit(dataset: np.ndarray, target: np.ndarray, maxsize: int = 20,
+                  niterations: int = 40, verbosity: int = 0
                   ) -> "pysr.PySRRegressor":
     """
     Use pysr to fit the dataset and target.
@@ -115,7 +116,7 @@ def regressor_fit(dataset: np.ndarray, target: np.ndarray, maxsize: int = 20, ni
         elementwise_loss="loss(prediction, target) = (prediction - target)^2",
         # ^ Custom loss function (julia syntax)
         # warm_start=True,
-        verbosity=0,
+        verbosity=verbosity,
     )
     model.fit(
         dataset,
