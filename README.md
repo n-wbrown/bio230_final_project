@@ -4,10 +4,30 @@ This project attempts to reconstruct chemical reaction networks from
 time-series recording of the reactant quantities. The project includes tools to
 generate and simulate networks for testing.
 
-# Usage Instructions
+
+# Getting Started
+## Installing dependencies
+This tool does not need to be installed but it does require some dependencies
+to be installed in your environment before it can be run. This requires
+python>=3.10. It may work with previous versions but this isn't tested.
+
+To install dependencies:
+```bash
+# Using pip:
+pip install -r requirements.txt
+
+# Using Conda:
+conda install --file requirements.txt
+```
+
+## Running the tool
 Run with:
 `python main.py [subcommand] [args]`
 
+For an extended exmples, see [Example usage](#example-usage)
+
+## Testing
+A minimal test suite is included to verify the functionality of the library. To exectute the tests, run `pytest`.
 
 # Example usage
 ```bash
@@ -88,12 +108,3 @@ options:
   --maxsize MAXSIZE     Restrict the maximum complexity of the explored solutions
   --output OUTPUT       Print the results into the file
 ```
-
-# Installing dependencies
-Requires python>=3.10. May work with previous versions but this isn't tested.
-
-To install dependencies:
-`pip install -r requirements.txt`
-
-# Testing
-A minimal test suite is included to verify the functionality of the library. To exectute the tests, run `pytest`.
