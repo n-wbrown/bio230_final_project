@@ -1,5 +1,7 @@
 # BIO230 Final Project
 
+Final project submission for UC Merced's Computation and Modeling for Interdisciplinary Biophysical Sciences, Biomaterials and Biotechnology (PHYS 230, Spring 2025)
+
 This project attempts to reconstruct chemical reaction networks from
 time-series recording of the reactant quantities. The project includes tools to
 generate and simulate networks for testing.
@@ -108,3 +110,8 @@ options:
   --maxsize MAXSIZE     Restrict the maximum complexity of the explored solutions
   --output OUTPUT       Print the results into the file
 ```
+# Ackwnowledgements
+
+This project has been made possible by
+- Miles Cranmer's [PySR](https://github.com/MilesCranmer/PySR) package for symbolic regression
+- [Perplexity](https://www.perplexity.ai/) for coding assistance
