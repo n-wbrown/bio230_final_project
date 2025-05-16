@@ -280,15 +280,12 @@ if __name__ == "__main__":
     elif use_subparser == GENERATE_NAME:
         # print(GENERATE_NAME)
         # Call methods from diff_eq_generator
-        src.diff_eq_generator.example_function()
         generate_runner(args)
     elif use_subparser == SIMULATE_NAME:
         # print(SIMULATE_NAME)
         # Call methods from diff_eq_simulator
-        src.diff_eq_simulator.example_function()
         simulate_runner(args)
     elif use_subparser == RECREATE_NAME:
         # print(RECREATE_NAME)
         # Call methods from diff_eq_recreator
-        src.diff_eq_recreator.example_function()
         recreate_runner(args)
