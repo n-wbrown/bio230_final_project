@@ -2,7 +2,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH -p grp.ccbm
-#SBATCH -cpus-per-task=56
+#SBATCH --cpus-per-task=56
 #SBATCH --time=6-20:00:00
 #SBATCH --output=lrun_%j.stdout
 #SBATCH --mem=8192  #memory per core in MBs it can be calcuated
