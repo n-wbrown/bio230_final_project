@@ -25,4 +25,4 @@ srun -n 1 -c 56
 
 srun -n 1 -c 56 python main.py generate --output_file network.pickle
 srun -n 1 -c 56 python main.py simulate --input_network_file network.pickle --runs 25 --noise_intensity 0.0 --output_dir network_runs
-srun -n 1 -c 56 python main.py recreate --input_sim_dir network_runs --niterations 100 network_runs
+srun -n 1 -c 56 python main.py recreate --input_sim_dir network_runs --niterations 100
