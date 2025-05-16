@@ -14,7 +14,9 @@ def example_function():
 
 
 def rand_runner(rnet: ".diff_eq_generator.ReactionNetwork",
-                ubound: np.ndarray,
+                ubound: np.ndarray|None = None, steps: int = 50,
+                noise_intensity: np.ndarray|None = None,
+                run_duration: int = 1,
                 runs: int = 3) -> tuple[list[np.ndarray], list[np.ndarray]]:
     """
     Take in a ReactionNetwork and run a set of randomized, simulated runs.
@@ -31,14 +33,23 @@ def rand_runner(rnet: ".diff_eq_generator.ReactionNetwork",
     """
     reactants_data = []
     times_data = [] 
+
+    _noise_intensity = np.zeros(len(rnet.species))
+    if noise_intensity is not None:
+        _noise_intensity = noise_intensity
+
+    _ubound = np.ones(shape=(len(rnet.species)))
+    if ubound is not None:
+        _ubound = ubound
+
     for _ in range(runs):
         reactants, times = simulate_network(
             rnet,
-            x0=ubound * np.random.random(ubound.shape),
+            x0=_ubound * np.random.random(_ubound.shape),
             t0=0,
-            tf=1,
-            num_steps=50,
-            noise_intensity=np.array([1e-3]*3)
+            tf=run_duration,
+            num_steps=steps,
+            noise_intensity=_noise_intensity,
         )
         reactants_data.append(reactants)
         times_data.append(times)

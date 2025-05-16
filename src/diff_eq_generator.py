@@ -28,8 +28,8 @@ class ReactionNetwork:
     reactions: list[dict]
 
 
-def generate_reaction_network(num_species=3, num_reactions=4, 
-                              max_reactants=2, max_products=2, 
+def generate_reaction_network(num_species=3, num_reactions=4,
+                              max_reactants=2, max_products=2,
                               rate_range=(0.1, 2.0), seed=None):
     """
     Generate a random reaction network as a set of symbolic ODEs.
