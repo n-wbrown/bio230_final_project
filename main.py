@@ -19,8 +19,9 @@ RECREATE_NAME = "recreate"
 REACTANTS_SUFFIX = "_reactants"
 TIMES_SUFFIX = "_times"
 
-# logger 
+# logger
 logger = logging.getLogger(__name__)
+
 
 def generate_runner(args: argparse.Namespace) -> None:
     rnet = src.diff_eq_generator.generate_reaction_network(
@@ -48,12 +49,11 @@ def simulate_runner(args: argparse.Namespace) -> None:
     with open(args.input_network_file, "rb") as in_file:
         rnet = pickle.load(in_file)
 
-
     reactants_results, times_results = src.diff_eq_recreator.rand_runner(
         rnet=rnet,
-        ubound=np.array([args.ubound]*len(rnet.species)),
+        ubound=np.array([args.ubound] * len(rnet.species)),
         steps=args.steps,
-        noise_intensity=np.array([args.noise_intensity]*len(rnet.species)),
+        noise_intensity=np.array([args.noise_intensity] * len(rnet.species)),
         run_duration=args.run_duration,
         runs=args.runs,
     )
@@ -118,9 +118,7 @@ def recreate_runner(args: argparse.Namespace) -> None:
 
     output_buf = []
     for eq in model.equations_:
-        output_buf.append(
-            eq[["complexity", "loss", "score", "equation"]].to_string()
-        )
+        output_buf.append(eq[["complexity", "loss", "score", "equation"]].to_string())
         output_buf.append("\n")
 
     for best in model.get_best():
@@ -137,11 +135,9 @@ def recreate_runner(args: argparse.Namespace) -> None:
         print(output_msg)
 
 
-
-
 def parse_cl_args():
     parser = argparse.ArgumentParser(
-        prog='bio_230_final_project',
+        prog="bio_230_final_project",
         description="Solve stochastic differential equations and approximate the original equation.",
     )
     subparsers = parser.add_subparsers(
@@ -189,7 +185,6 @@ def parse_cl_args():
         default=None,
         type=str,
     )
-
 
     # Aim 2: Simulate the equation with stochasticity
     simulate_subparser = subparsers.add_parser(
@@ -282,17 +277,17 @@ if __name__ == "__main__":
     use_subparser = args.__getattribute__(SUBPARSER_KEY)
     if use_subparser is None:
         parser.print_help()
-    elif use_subparser ==  GENERATE_NAME:
+    elif use_subparser == GENERATE_NAME:
         # print(GENERATE_NAME)
         # Call methods from diff_eq_generator
         src.diff_eq_generator.example_function()
         generate_runner(args)
-    elif use_subparser ==  SIMULATE_NAME:
+    elif use_subparser == SIMULATE_NAME:
         # print(SIMULATE_NAME)
         # Call methods from diff_eq_simulator
         src.diff_eq_simulator.example_function()
         simulate_runner(args)
-    elif use_subparser ==  RECREATE_NAME:
+    elif use_subparser == RECREATE_NAME:
         # print(RECREATE_NAME)
         # Call methods from diff_eq_recreator
         src.diff_eq_recreator.example_function()
