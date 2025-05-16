@@ -118,7 +118,7 @@ def recreate_runner(args: argparse.Namespace) -> None:
 
     output_buf = []
     for eq in model.equations_:
-        output_buf.append(eq[["complexity", "loss", "score", "equation"]].to_string())
+        output_buf.append(eq[["complexity", "loss", "score", "equation", "sympy_format"]].to_string())
         output_buf.append("\n")
 
     for best in model.get_best():
