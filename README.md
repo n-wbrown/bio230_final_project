@@ -9,6 +9,8 @@ Basic example:
 ```bash
 python main.py generate --output_file network.pickle
 python main.py simulate --input_network_file network.pickle --output_dir network_runs
+python main.py recreate --input_sim_dir network_runs
+```
 
 # Installing dependencies
 Requires python>=3.10. May work with previous versions but this isn't tested.
